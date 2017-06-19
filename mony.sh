@@ -30,7 +30,7 @@ echo -n "[*] Choose your option [monitor/managed]: "
 read ans
 echo
 case $ans in
-	"monitor"|"mon")
+	"monitor"|"mon"|"Monitor")
 		echo "The Network Card will be set to MONITOR Mode"
 		sleep 0.6
 		echo -n "[*] Are you sure you want to continue?[Y/n]: "
@@ -69,16 +69,14 @@ case $ans in
 				echo
 		#CHECKING FOR INTERFERING PROCESSES:
                 		sleep 1.5
-				echo "		----------"
+				echo "		----------"&&echo
                 		airmon-ng check $int
-				echo "		----------"
-				echo
 				sleep 2
                 #------------------------------------------------------------------------------------------------------------------------
                 #1) Kill dhClient
-                		if ["$(airmon-ng check $int | grep dhclient | gawk '{ FS}  NR==1{print $2}')" == "dhclient" ] ; then
+                		if [["$(airmon-ng check $int | grep dhclient | gawk '{ FS}  NR==1{print $2}')" == "dhclient" ]] ; then
 
-                        		echo "[+] Killing" $(airmon-ng check $int | grep dhclient | gawk '{ FS}  NR==1{print $2}') "..."
+                        		echo "[+] Killing $(airmon-ng check $int | grep dhclient | gawk '{ FS}  NR==1{print $2}')..."
                         		sleep 1
 					kill "$(airmon-ng check $int | grep dhclient | gawk '{ FS}  NR==1{print $1}')"
 					echo "Please Wait..."
@@ -87,7 +85,7 @@ case $ans in
 
                 		fi
 		#2) Killing wpa_supplicants
-                		if [ "$(airmon-ng check $int | grep wpa_supplicant | gawk '{FS} {print $2}')" == "wpa_supplicant"] ; then
+                		if [ ["$(airmon-ng check $int | grep wpa_supplicant | gawk '{FS} {print $2}')" == "wpa_supplicant"]] ; then
 
                         		echo "[+] Killing" $(airmon-ng check $int | grep wpa_supplicant | gawk '{FS} {print $2}') "...."
 					sleep 1
@@ -97,7 +95,7 @@ case $ans in
 
                 		fi
 		#3) Killing (if Possible, any avahi-daemons
-                		if [ "$(airmon-ng check $int | grep avahi-daemon | awk '{FS} NR==1{print $2}')" == "avahi-daemon" ] ; then
+                		if [] "$(airmon-ng check $int | grep avahi-daemon | awk '{FS} NR==1{print $2}')" == "avahi-daemon" ]] ; then
 
                         		echo "[+] Killing Avahi-Daemons..."
 					sleep 0.4
@@ -130,7 +128,7 @@ case $ans in
 		esac
 	;;
 
-	"managed"|"man")
+	"managed"|"man"|"Managed")
 
 		echo "This will set the Network Card to MANAGED Mode"
                 sleep 0.6
@@ -161,7 +159,7 @@ case $ans in
 				echo "[+] Restarting Network Manager daemon..."
 				service NetworkManager restart
 				echo "[+] Please Wait..."
-				sleep 8
+				sleep 20
 				echo
 				echo "[+] Ping TEST"
 				echo
